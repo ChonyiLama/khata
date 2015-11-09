@@ -40,22 +40,7 @@ angular.module('starter.controllers', [])
     }, 1000);
   };
 })
-.controller('searchCtrl', function($scope, $http) {
-  $scope.searchWordFunction = function() {
-    // $http({
-    //         url: 'http://khata.co/api/find.php',
-    //         method: "POST",
-    //         data: {'text': $scope.searchWord},
-    //         headers: {'Content-Type': 'application/json'}
-    //     }).success(function (data, status, headers, config) {
-    //           console.log(data);
-    //         }).error(function (data, status, headers, config) {
-    //             console.log(data);
-    //         });
-     console.log("test");
-  };
 
-})
 
 .controller('PlaylistsCtrl', function($scope) {
   $scope.playlists = [
@@ -69,4 +54,27 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
-});
+})
+
+.controller('searchCtrl', function($scope, $stateParams, $http) {
+  $scope.searchWordFunction = function() {
+
+     $http({
+             url: 'http://khata.co/api/find.php',
+             method: "POST",
+             data: {'text': $scope.searchWord},
+             headers: {'Content-Type': 'application/json'}
+         }).success(function (data, status, headers, config) {
+               console.log(data);
+               $scope.resultValue = data;  //call in search.html
+             }).error(function (data, status, headers, config) {
+                 console.log(data);
+             });
+     console.log("test");
+     console.log($scope.searchWord);
+  };
+})
+
+
+;
+
