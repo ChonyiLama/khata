@@ -38,10 +38,16 @@
  	<ul class="definition-list">
  	<br><br><br>
     	<li class="item" ng-repeat="x in resultValue">
-    		{{ x.word }} <br>
-    		{{ x.definition }} <br>
-    		{{ x.english_word }} <br>
-    		{{ x.english_definition }}		
+    	<div ng-show = "likeId">
+    		Tibetan Word: {{ x.word }} <br>
+    		Tibetan Definition: {{ x.definition }} <br><br>
+    		English Word: {{ x.english_word }} <br>
+    		English Definition: {{ x.english_definition }}
+    		<br><br>
+    		<button class = "button" ng-click = 'likeWordFunction()'> Upvote </button>
+    		<input type="text" ng-model = '$parent.likeWord'>
+    		<button class = "button" ng-click = 'dislikeWordFunction()'> Downvote </button>
+    		<input type="text" ng-model = '$parent.dislikeWord'>
    
     	</li>
 	</ul>

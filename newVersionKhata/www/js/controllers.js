@@ -57,22 +57,57 @@ angular.module('starter.controllers', [])
 })
 
 .controller('searchCtrl', function($scope, $stateParams, $http) {
-  $scope.searchWordFunction = function() {
+    $scope.searchWordFunction = function() {
 
-     $http({
+        $http({
              url: 'http://khata.co/api/find.php',
              method: "POST",
              data: {'text': $scope.searchWord},
              headers: {'Content-Type': 'application/json'}
-         }).success(function (data, status, headers, config) {
-               console.log(data);
-               $scope.resultValue = data;  //call in search.html
-             }).error(function (data, status, headers, config) {
-                 console.log(data);
-             });
-     console.log("test");
-     console.log($scope.searchWord);
-  };
+        })
+        .success(function (data, status, headers, config) {
+            console.log(data);
+            $scope.resultValue = data;  //call in search.html
+        })
+        .error(function (data, status, headers, config) {
+            console.log(data);
+        });
+    };
+    
+
+    $scope.likeWordFunction = funtion() {
+
+        $http({
+            url: 'http://khata.co/api/like.php',
+            method: 'POST',
+            data: { 'id': $scope.likeWord},
+            headers: {'Content-Type': 'application/json'}           
+        })
+        .success(function(data, status, headers, config) {
+            console.log(data);
+            $scope.likeId = data;
+        })
+        .error(function(data, status, headers, config) {
+            console.log(data); 
+        });
+    }; 
+    $scope.dislikeWordFunction = funtion() {
+
+        $http({
+            url: 'http://khata.co/api/dislike.php',
+            method: 'POST'
+            data: {'id': $scope.dislikeWord},
+            headers: {'Content-Type': 'application/json'}           
+        })
+        .success(function(data, status, headers, config) {
+            console.log(data);
+            $scope.dislikeId = data;
+        })
+        .error(function(data, status, headers, config) {
+            console.log(data);
+        })
+    };  
+
 })
 
 
