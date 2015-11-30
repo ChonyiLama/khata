@@ -24,31 +24,26 @@
 
 	</div>
 <!--format-->
-<!--
-	<table>
+
+<!-- 	<table>
   		<tr ng-repeat="x in resultValue">
     		<td>{{ x.word }}</td>
     		<td>{{ x.definition }}</td>
     		<td>{{ x.english_word }}</td>
     		<td>{{ x.english_definition }}</td>
  		 </tr>
-	</table>  -->
+	</table>   -->
+
+    <ul class="list">
+        <li class="item" ng-repeat="x in resultValue">
+            {{ x.word }} /{{ x.english_word }}
+             {{ x.definition }} /{{ x.english_definition }}
+           <i class="icon ion-chevron-up" ng-click = 'likeWordFunction()'> {{x.like}}</i>
+          <i class="icon ion-chevron-down" ng-click = 'dislikeWordFunction()'> {{x.dislike}}</i>
+        </li>
+    </ul>
+
 
  </ion-content>
- 	<ul class="definition-list">
- 	<br><br><br>
-    	<li class="item" ng-repeat="x in resultValue">
-    	<div ng-show = "likeId">
-    		Tibetan Word: {{ x.word }} <br>
-    		Tibetan Definition: {{ x.definition }} <br><br>
-    		English Word: {{ x.english_word }} <br>
-    		English Definition: {{ x.english_definition }}
-    		<br><br>
-    		<button class = "button" ng-click = 'likeWordFunction()'> Upvote </button>
-    		<input type="text" ng-model = '$parent.likeWord'>
-    		<button class = "button" ng-click = 'dislikeWordFunction()'> Downvote </button>
-    		<input type="text" ng-model = '$parent.dislikeWord'>
-   
-    	</li>
-	</ul>
+
 </ion-view>

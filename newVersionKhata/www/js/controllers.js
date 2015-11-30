@@ -75,12 +75,12 @@ angular.module('starter.controllers', [])
     };
     
 
-    $scope.likeWordFunction = funtion() {
+    $scope.likeWordFunction = function(id) {
 
         $http({
             url: 'http://khata.co/api/like.php',
             method: 'POST',
-            data: { 'id': $scope.likeWord},
+            data: { 'id': id},
             headers: {'Content-Type': 'application/json'}           
         })
         .success(function(data, status, headers, config) {
@@ -91,12 +91,12 @@ angular.module('starter.controllers', [])
             console.log(data); 
         });
     }; 
-    $scope.dislikeWordFunction = funtion() {
+    $scope.dislikeWordFunction = function(id) {
 
         $http({
             url: 'http://khata.co/api/dislike.php',
-            method: 'POST'
-            data: {'id': $scope.dislikeWord},
+            method: 'POST',
+            data: {'id': id},
             headers: {'Content-Type': 'application/json'}           
         })
         .success(function(data, status, headers, config) {
