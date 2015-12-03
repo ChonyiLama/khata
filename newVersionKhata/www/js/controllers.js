@@ -42,6 +42,25 @@ angular.module('starter.controllers', [])
 })
 
 
+.controller('ContactUsCtrl', function($scope,$http) {
+  $scope.sentRequest = function (){
+
+      $http({
+             url: 'http://khata.co/api/contact.php',
+             method: "POST",
+             data: $scope.contact,
+             headers: {'Content-Type': 'application/json'}
+        })
+        .success(function (data, status, headers, config) {
+            console.log(data);
+            $scope.alert = data;  //call in search.html
+        })
+        .error(function (data, status, headers, config) {
+            console.log(data);
+        });
+  };
+})
+
 .controller('PlaylistsCtrl', function($scope) {
   $scope.playlists = [
     { title: 'Reggae', id: 1 },
@@ -53,10 +72,32 @@ angular.module('starter.controllers', [])
   ];
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('WordCtrl', function($scope, $stateParams, $http) {
+      console.log($stateParams.wordId);
+
+      $http({
+             url: 'http://khata.co/api/index.php',
+             method: "POST",
+             data: {"id":  $stateParams.wordId },
+             headers: {'Content-Type': 'application/json'}
+        })
+        .success(function (data, status, headers, config) {
+            console.log(data);
+            $scope.x = data[0];  //call in search.html
+        })
+        .error(function (data, status, headers, config) {
+            console.log(data);
+        });
+
+
 })
 
-.controller('searchCtrl', function($scope, $stateParams, $http) {
+.controller('searchCtrl', function($scope, $stateParams, $http, $state) {
+  $scope.gotoWord = function(x){
+   
+    $state.go('app.word', {wordId: x});
+
+  };
     $scope.searchWordFunction = function() {
 
         $http({

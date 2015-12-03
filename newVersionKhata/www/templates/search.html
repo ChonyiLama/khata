@@ -5,13 +5,6 @@
 
 
  <ion-content>
- 	<!--	
- 		<button ng-click = 'searchWordFunction()'>
-	 	 search
-		</button>
-		<input type="text" ng-model = '$parent.searchWord'>
-		<br><br><br>    -->
-
 	<div class="item item-button-right item-input">
 
 	    <i class="icon ion-search placeholder-icon"></i>
@@ -25,24 +18,12 @@
 	</div>
 <!--format-->
 
-<!-- 	<table>
-  		<tr ng-repeat="x in resultValue">
-    		<td>{{ x.word }}</td>
-    		<td>{{ x.definition }}</td>
-    		<td>{{ x.english_word }}</td>
-    		<td>{{ x.english_definition }}</td>
- 		 </tr>
-	</table>   -->
-
-    <ul class="list">
-        <li class="item" ng-repeat="x in resultValue">
-            {{ x.word }} /{{ x.english_word }}
-             {{ x.definition }} /{{ x.english_definition }}
-           <i class="icon ion-chevron-up" ng-click = 'likeWordFunction()'> {{x.like}}</i>
-          <i class="icon ion-chevron-down" ng-click = 'dislikeWordFunction()'> {{x.dislike}}</i>
-        </li>
-    </ul>
-
+    <ion-list>
+        <ion-item ng-repeat="x in resultValue" href="#/app/word/{{x.id}}">
+              {{ x.word }} /{{ x.english_word }}
+            {{ x.definition }} /{{ x.english_definition }}
+        </ion-item>
+    </ion-list>
 
  </ion-content>
 

@@ -13,18 +13,18 @@
 </head>
 
   <ion-content>
-    <form ng-submit="doLogin()">
+    <form ng-submit="sentRequest()">
       <div class="list">
         <label class="item item-input">
           <span class="input-label">Name</span>
-          <input type="text" ng-model="loginData.username">
+          <input type="text" ng-model="$parent.contact.name">
         </label>
         <label class="item item-input">
           <span class="input-label">Email</span>
-          <input type="password" ng-model="loginData.password">
+          <input type="text" ng-model="$parent.contact.email_phone">
         </label>
         <label class="item item-input">
-          <textarea placeholder="Comments/Feedback"></textarea>
+          <textarea placeholder="Comments/Feedback" ng-model="$parent.contact.feedback"></textarea>
         </label>
         <label class="item">
           <button class="button button-block button-positive" type="submit">Submit</button>
