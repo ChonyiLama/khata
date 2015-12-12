@@ -56,7 +56,7 @@ angular.module('starter.controllers', [])
         })
         .success(function (data, status, headers, config) {
             console.log(data);
-            $scope.resultValue = data;  //call in search.html
+            $scope.words = data;  //call in search.html
         })
         .error(function (data, status, headers, config) {
             console.log(data);
@@ -65,7 +65,9 @@ angular.module('starter.controllers', [])
     };
     
 
-    $scope.likeWordFunction = function(id) {
+    $scope.likeWordFunction = function(id,index) {
+
+      $scope.words[index].like = parseInt($scope.words[index].like) +1;
 
         $http({
             url: 'http://khata.co/api/like.php',
@@ -81,7 +83,9 @@ angular.module('starter.controllers', [])
             console.log(data); 
         });
     }; 
-    $scope.dislikeWordFunction = function(id) {
+    $scope.dislikeWordFunction = function(id,index) {
+
+        $scope.words[index].like = parseInt($scope.words[index].like) +1;
 
         $http({
             url: 'http://khata.co/api/dislike.php',
@@ -95,12 +99,13 @@ angular.module('starter.controllers', [])
         })
         .error(function(data, status, headers, config) {
             console.log(data);
-        })
+        });
     };  
 
 })
 
 .controller('ContactUsCtrl', function($scope,$http) {
+
   $scope.sentRequest = function (){
 
       $http({
@@ -112,6 +117,7 @@ angular.module('starter.controllers', [])
         .success(function (data, status, headers, config) {
             console.log(data);
             $scope.alert = data;  //call in search.html
+                        $scope.alert = true;
         })
         .error(function (data, status, headers, config) {
             console.log(data);
@@ -136,6 +142,107 @@ angular.module('starter.controllers', [])
         .error(function (data, status, headers, config) {
             console.log(data);
         });
+
+
+})
+
+.controller('wordRecent10Ctrl', function($scope, $stateParams, $http, $state) {
+
+      $http({
+             url: 'http://khata.co/api/recent10.php',
+             method: "GET",
+             headers: {'Content-Type': 'application/json'}
+        })
+        .success(function (data, status, headers, config) {
+            $scope.words = data;  //call in search.html
+        })
+        .error(function (data, status, headers, config) {
+            console.log(data);
+        });
+
+        $scope.gotoWord = function (id){
+           $state.go('app.word', { wordId: id});
+        };
+
+    $scope.likeWordFunction = function(id,index) {
+
+      $scope.words[index].like = parseInt($scope.words[index].like) +1;
+
+        $http({
+            url: 'http://khata.co/api/like.php',
+            method: 'POST',
+            data: { 'id': id},
+            headers: {'Content-Type': 'application/json'}           
+        })
+        .success(function(data, status, headers, config) {
+            console.log(data);
+            $scope.likeId = data;
+        })
+        .error(function(data, status, headers, config) {
+            console.log(data); 
+        });
+    }; 
+    $scope.dislikeWordFunction = function(id,index) {
+
+        $scope.words[index].like = parseInt($scope.words[index].like) +1;
+
+        $http({
+            url: 'http://khata.co/api/dislike.php',
+            method: 'POST',
+            data: {'id': id},
+            headers: {'Content-Type': 'application/json'}           
+        })
+        .success(function(data, status, headers, config) {
+            console.log(data);
+            $scope.dislikeId = data;
+        })
+        .error(function(data, status, headers, config) {
+            console.log(data);
+        });
+    };  
+
+    $scope.doRefresh = function() {
+
+     $http({
+             url: 'http://khata.co/api/recent10.php',
+             method: "GET",
+             headers: {'Content-Type': 'application/json'}
+        })
+        .success(function (data, status, headers, config) {
+            $scope.words = data;  //call in search.html
+        })
+        .finally(function() {
+           // Stop the ion-refresher from spinning
+           $scope.$broadcast('scroll.refreshComplete');
+         });
+
+   };
+
+
+
+
+})
+.controller('addWordCtrl', function($scope, $stateParams, $http) {
+
+    $scope.submit = function (){
+
+      $http({
+             url: 'http://khata.co/api/create.php',
+             method: "POST",
+             data: $scope.addWord,
+             headers: {'Content-Type': 'application/json'}
+        })
+        .success(function (data, status, headers, config) {
+            console.log(data);
+            $scope.alert = true;
+            //$scope.alert = data;  //call in search.html
+        })
+        .error(function (data, status, headers, config) {
+            console.log(data);
+        });
+  };
+
+
 
 
 });

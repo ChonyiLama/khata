@@ -3,8 +3,14 @@
              <h2> {{ x.word }} </h2> <br>
              {{ x.english_word }} <br> <br>
 
-                         <i class="icon ion-thumbsup" >{{x.like}}</i>
-                         <i class="icon ion-thumbsdown" > {{x.dislike}}</i>
+                         <a class=" pull-right" ng-click="likeWordFunction(word.id,$index)" >
+						      <i class="icon ion-thumbsup"></i>
+						     {{x.like}} Like
+						  </a>
+						   <a class=" pull-right" ng-click="dislikeWordFunction(word.id, $index)">
+						      <i class="icon ion-thumbsdown"></i>
+						     {{x.like}}  Dislike
+						   </a>
               <br><br>
 
              {{ x.definition }} /{{ x.english_definition }}

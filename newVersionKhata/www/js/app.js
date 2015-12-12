@@ -69,6 +69,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ui.router'])
       }
     }
   })
+    .state('app.addWord', {
+    url: '/addWord',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/addWord.html',
+        controller: 'addWordCtrl'
+      }
+    }
+  })
+  .state('app.wordRecent10', {
+    url: '/wordRecent10',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/wordRecent10.html',
+        controller: 'wordRecent10Ctrl'
+      }
+    }
+  })
 
   .state('app.word', {
     url: '/word/:wordId',

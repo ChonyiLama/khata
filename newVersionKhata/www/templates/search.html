@@ -17,12 +17,54 @@
 
 	</div>
 <!--format-->
-    <ion-list>
+ <!--    <ion-list>
         <ion-item ng-repeat="x in resultValue" href="#/app/word/{{x.id}}">
               {{ x.word }} /{{ x.english_word }}
             {{ x.definition }} /{{ x.english_definition }}
         </ion-item>
-    </ion-list>
+    </ion-list> -->
+
+     <ion-scroll direction="y" style="height:103vh;">
+			<div class="list list-inset">
+				<div ng-repeat="word in words" href="#/app/word/{{word.id}}" >
+
+				    <div class="item" ng-click="gotoWord(word.id)" >
+				      {{word.word}} <br>
+				      {{word.english_word}} <br>
+
+				     <p>
+				      <a href="#" class="subdued">{{word.like}} Like</a>
+				      <a href="#" class="subdued">{{word.dislike}} Dislike</a>
+				    </p>
+
+				    </div>
+
+				    <div class="item tabs tabs-secondary tabs-icon-left" >
+				     <a class="tab-item" ng-click="likeWordFunction(word.id,$index)" >
+				      <i class="icon ion-thumbsup"></i>
+				      Like
+				    </a>
+				     <a class="tab-item" ng-click="dislikeWordFunction(word.id, $index)">
+				      <i class="icon ion-thumbsdown"></i>
+				      Dislike
+				    </a>
+					   <!--  <a class="tab-item" href="#">
+					      <i class="icon ion-chatbox"></i>
+					      Comment
+					    </a>
+					    <a class="tab-item" href="#">
+					      <i class="icon ion-share"></i>
+					      Share
+					    </a> -->
+					  </div>
+					  <br>
+				</div>
+			</div>
+
+		 <ion-scroll >
+
+
+
 
  </ion-content>
 

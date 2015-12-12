@@ -1,0 +1,55 @@
+<ion-view view-title="Recently Added Words" ng-controller = "wordRecent10Ctrl">
+
+	 <ion-content>
+		 <ion-scroll direction="y" style="height:103vh;">
+		 <ion-refresher
+		    pulling-text="Pull to refresh..."
+		    on-refresh="doRefresh()">
+		  </ion-refresher>
+			<div class="list list-inset">
+				<div ng-repeat="word in words" href="#/app/word/{{word.id}}" >
+<!-- 				<HR COLOR="yellow" style="padding-bottom:0cm">
+ -->
+			    <div class="item" ng-click="gotoWord(word.id)" >
+			      {{word.word}} <br>
+			      {{word.definition}} <br>
+			      {{word.english_word}} <br>
+			      {{word.english_definition}} <br>
+
+			     <p>
+			      <a href="#" class="subdued">{{word.like}} Like</a>
+			      <a href="#" class="subdued">{{word.dislike}} Dislike</a>
+			      <a href="#" class="subdued">Created On {{word.createdAt}} </a>
+			    </p>
+
+			    </div>
+
+			    <div class="item tabs tabs-secondary tabs-icon-left" >
+			    <a class="tab-item" ng-click="likeWordFunction(word.id,$index)" >
+			      <i class="icon ion-thumbsup"></i>
+			      Like
+			    </a>
+			     <a class="tab-item" ng-click="dislikeWordFunction(word.id, $index)">
+			      <i class="icon ion-thumbsdown"></i>
+			      Dislike
+			    </a>
+				   <!--  <a class="tab-item" href="#">
+				      <i class="icon ion-chatbox"></i>
+				      Comment
+				    </a>
+				    <a class="tab-item" href="#">
+				      <i class="icon ion-share"></i>
+				      Share
+				    </a> -->
+				  </div>
+				  <br>
+				</div>
+			</div>
+
+		 <ion-scroll >
+
+	  </ion-content>
+
+</ion-view>
+
+
