@@ -42,6 +42,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('searchCtrl', function($scope, $stateParams, $state, $http) {
+  $scope.isDisabled = false;
   $scope.gotoWord = function(x){
    
     $state.go('app.word', {wordId: x});
@@ -77,7 +78,9 @@ angular.module('starter.controllers', [])
         })
         .success(function(data, status, headers, config) {
             console.log(data);
+            alert("Clicked Like");
             $scope.likeId = data;
+            $scope.isDisabled = true;
         })
         .error(function(data, status, headers, config) {
             console.log(data); 
@@ -85,7 +88,7 @@ angular.module('starter.controllers', [])
     }; 
     $scope.dislikeWordFunction = function(id,index) {
 
-        $scope.words[index].like = parseInt($scope.words[index].like) +1;
+        $scope.words[index].dislike = parseInt($scope.words[index].dislike) +1;
 
         $http({
             url: 'http://khata.co/api/dislike.php',
@@ -95,7 +98,9 @@ angular.module('starter.controllers', [])
         })
         .success(function(data, status, headers, config) {
             console.log(data);
+            alert("Clicked Dislike!");
             $scope.dislikeId = data;
+            $scope.isDisabled = true;
         })
         .error(function(data, status, headers, config) {
             console.log(data);
@@ -176,6 +181,8 @@ angular.module('starter.controllers', [])
         })
         .success(function(data, status, headers, config) {
             console.log(data);
+            alert("Clicked in recent 10 like");
+            $scope.isDisabled = true;
             $scope.likeId = data;
         })
         .error(function(data, status, headers, config) {
@@ -194,6 +201,9 @@ angular.module('starter.controllers', [])
         })
         .success(function(data, status, headers, config) {
             console.log(data);
+            alert("Clicked in recent 10 dislike");
+            
+            $scope.isDisabled = true;
             $scope.dislikeId = data;
         })
         .error(function(data, status, headers, config) {

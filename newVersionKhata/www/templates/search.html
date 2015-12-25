@@ -28,7 +28,7 @@
 			<div class="list list-inset">
 				<div ng-repeat="word in words" href="#/app/word/{{word.id}}" >
 
-				    <div class="item" ng-click="gotoWord(word.id)" >
+				    <div class="item" ng-click="gotoWord(word.id)" >    <!-- confusion?  prints out words, id somewhere? -->
 				      {{word.word}} <br>
 				      {{word.english_word}} <br>
 
@@ -40,11 +40,11 @@
 				    </div>
 
 				    <div class="item tabs tabs-secondary tabs-icon-left" >
-				     <a class="tab-item" ng-click="likeWordFunction(word.id,$index)" >
+				     <a class="tab-item" ng-click="likeWordFunction(word.id,$index)" ng-disabled="isDisabled" >  <!-- confusion?  like word-->
 				      <i class="icon ion-thumbsup"></i>
 				      Like
 				    </a>
-				     <a class="tab-item" ng-click="dislikeWordFunction(word.id, $index)">
+				     <a class="tab-item" ng-click="dislikeWordFunction(word.id, $index)" ng-disabled="isDisabled" >
 				      <i class="icon ion-thumbsdown"></i>
 				      Dislike
 				    </a>
@@ -61,7 +61,7 @@
 				</div>
 			</div>
 
-		 <ion-scroll >
+	 <ion-scroll >
 
 
 
