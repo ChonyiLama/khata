@@ -42,7 +42,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('searchCtrl', function($scope, $stateParams, $state, $http) {
-  $scope.isDisabled = false;
+  var used_id_list = []
   $scope.gotoWord = function(x){
    
     $state.go('app.word', {wordId: x});
@@ -68,8 +68,6 @@ angular.module('starter.controllers', [])
 
     $scope.likeWordFunction = function(id,index) {
 
-      $scope.words[index].like = parseInt($scope.words[index].like) +1;
-
         $http({
             url: 'http://khata.co/api/like.php',
             method: 'POST',
@@ -78,17 +76,25 @@ angular.module('starter.controllers', [])
         })
         .success(function(data, status, headers, config) {
             console.log(data);
-            alert("Clicked Like");
             $scope.likeId = data;
-            $scope.isDisabled = true;
+            already_liked = false;
+            for (i=0; i<used_id_list.length; i++) {
+              if (used_id_list[i] == id) {
+                already_liked = true;
+              }
+            }
+            if (already_liked == false) {
+              $scope.words[index].like = parseInt($scope.words[index].like) +1;
+              used_id_list.push(id);
+            } else {
+              alert("you can only like/dislike a word once ^_^");
+            }
         })
         .error(function(data, status, headers, config) {
             console.log(data); 
         });
     }; 
     $scope.dislikeWordFunction = function(id,index) {
-
-        $scope.words[index].dislike = parseInt($scope.words[index].dislike) +1;
 
         $http({
             url: 'http://khata.co/api/dislike.php',
@@ -98,9 +104,19 @@ angular.module('starter.controllers', [])
         })
         .success(function(data, status, headers, config) {
             console.log(data);
-            alert("Clicked Dislike!");
             $scope.dislikeId = data;
-            $scope.isDisabled = true;
+            already_liked = false;
+            for (i=0; i<used_id_list.length; i++) {
+              if (used_id_list[i] == id) {
+                already_liked = true;
+              }
+            }
+            if (already_liked == false) {
+              $scope.words[index].like = parseInt($scope.words[index].like) +1;
+              used_id_list.push(id);
+            } else {
+              alert("you can only like/dislike a word once ^_^");
+            }
         })
         .error(function(data, status, headers, config) {
             console.log(data);
@@ -152,7 +168,8 @@ angular.module('starter.controllers', [])
 })
 
 .controller('wordRecent10Ctrl', function($scope, $stateParams, $http, $state) {
-
+    used_ids = [];
+    
       $http({
              url: 'http://khata.co/api/recent10.php',
              method: "GET",
@@ -168,10 +185,8 @@ angular.module('starter.controllers', [])
         $scope.gotoWord = function (id){
            $state.go('app.word', { wordId: id});
         };
-
     $scope.likeWordFunction = function(id,index) {
-
-      $scope.words[index].like = parseInt($scope.words[index].like) +1;
+      
 
         $http({
             url: 'http://khata.co/api/like.php',
@@ -181,18 +196,25 @@ angular.module('starter.controllers', [])
         })
         .success(function(data, status, headers, config) {
             console.log(data);
-            alert("Clicked in recent 10 like");
-            $scope.isDisabled = true;
             $scope.likeId = data;
+            already_liked = false;
+            for (i=0; i<used_ids.length; i++) {
+              if (used_ids[i] == id) {
+                already_liked = true;
+              }
+            }
+            if (already_liked == false) {
+              $scope.words[index].like = parseInt($scope.words[index].like) +1;
+              used_ids.push(id);
+            } else {
+              alert("you can only like/dislike a word once ^_^");
+            }
         })
         .error(function(data, status, headers, config) {
             console.log(data); 
         });
     }; 
     $scope.dislikeWordFunction = function(id,index) {
-
-        $scope.words[index].like = parseInt($scope.words[index].like) +1;
-
         $http({
             url: 'http://khata.co/api/dislike.php',
             method: 'POST',
@@ -201,10 +223,19 @@ angular.module('starter.controllers', [])
         })
         .success(function(data, status, headers, config) {
             console.log(data);
-            alert("Clicked in recent 10 dislike");
-            
-            $scope.isDisabled = true;
             $scope.dislikeId = data;
+            already_liked = false;
+            for (i=0; i<used_ids.length; i++) {
+              if (used_ids[i] == id) {
+                already_liked = true;
+              }
+            }
+            if (already_liked == false) {
+              $scope.words[index].dislike = parseInt($scope.words[index].dislike) +1;
+              used_ids.push(id);
+            } else {
+              alert("you can only like/dislike a word once ^_^");
+            }
         })
         .error(function(data, status, headers, config) {
             console.log(data);
