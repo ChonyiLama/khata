@@ -263,7 +263,7 @@ angular.module('starter.controllers', [])
 
 
 })
-.controller('addWordCtrl', function($scope, $stateParams, $http) {
+.controller('addWordCtrl', function($scope, $stateParams,  $http) {
 
     $scope.submit = function (){
 
