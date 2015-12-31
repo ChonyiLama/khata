@@ -164,6 +164,63 @@ angular.module('starter.controllers', [])
             console.log(data);
         });
 
+      $scope.likeWordFunction = function(id,index) {
+      
+
+        $http({
+            url: 'http://khata.co/api/like.php',
+            method: 'POST',
+            data: { 'id': id},
+            headers: {'Content-Type': 'application/json'}           
+        })
+        .success(function(data, status, headers, config) {
+            console.log(data);
+            $scope.likeId = data;
+            already_liked = false;
+            for (i=0; i<used_ids.length; i++) {
+              if (used_ids[i] == id) {
+                already_liked = true;
+              }
+            }
+            if (already_liked == false) {
+              $scope.words[index].like = parseInt($scope.words[index].like) +1;
+              used_ids.push(id);
+            } else {
+              alert("you can only like/dislike a word once ^_^");
+            }
+        })
+        .error(function(data, status, headers, config) {
+            console.log(data); 
+        });
+    }; 
+    $scope.dislikeWordFunction = function(id,index) {
+        $http({
+            url: 'http://khata.co/api/dislike.php',
+            method: 'POST',
+            data: {'id': id},
+            headers: {'Content-Type': 'application/json'}           
+        })
+        .success(function(data, status, headers, config) {
+            console.log(data);
+            $scope.dislikeId = data;
+            already_liked = false;
+            for (i=0; i<used_ids.length; i++) {
+              if (used_ids[i] == id) {
+                already_liked = true;
+              }
+            }
+            if (already_liked == false) {
+              $scope.words[index].dislike = parseInt($scope.words[index].dislike) +1;
+              used_ids.push(id);
+            } else {
+              alert("you can only like/dislike a word once ^_^");
+            }
+        })
+        .error(function(data, status, headers, config) {
+            console.log(data);
+        });
+      };
+
 
 })
 
@@ -276,6 +333,7 @@ angular.module('starter.controllers', [])
         .success(function (data, status, headers, config) {
             console.log(data);
             $scope.alert = true;
+            alert("Word " + $scope.addWord.word + "/" + $scope.addWord.english_word + " added sucessfully!");
             //$scope.alert = data;  //call in search.html
         })
         .error(function (data, status, headers, config) {

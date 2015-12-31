@@ -5,7 +5,7 @@
 
 
  <ion-content>
-	<div class="item item-button-right item-input">
+<!-- 	<div class="item item-button-right item-input">
 
 	    <i class="icon ion-search placeholder-icon"></i>
 	    <input type="text" ng-model = "$parent.searchWord" placeholder="Search a word">
@@ -13,9 +13,18 @@
 		<button class="button button-small button-outline button-calm" ng-click = 'searchWordFunction()'>
 	 	 search
 		</button>
+	</div> -->
 
-
+	<div class="bar bar-header item-input-inset">
+	  <label class="item-input-wrapper">
+	    <i class="icon ion-ios-search placeholder-icon"></i>
+	    <input type="search" ng-model = "$parent.searchWord" placeholder="Search a word">
+	  </label>
+	  <button class="button button-clear" ng-click = 'searchWordFunction()'>
+	    Search
+	  </button>
 	</div>
+
 <!--format-->
  <!--    <ion-list>
         <ion-item ng-repeat="x in resultValue" href="#/app/word/{{x.id}}">
