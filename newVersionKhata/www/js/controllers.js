@@ -41,14 +41,27 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('searchCtrl', function($scope, $stateParams, $state, $http) {
-  var used_id_list = []
+.controller('searchCtrl', function($scope, $stateParams, $state, $http, $ionicLoading,$ionicPopup) {
+  var used_id_list = [];
+
+  //   $ionicLoading.show({
+  //   template: 'loading'
+  // });
   $scope.gotoWord = function(x){
    
     $state.go('app.word', {wordId: x});
 
   };
+  $scope.clearWord= function(){
+    $scope.searchWord = "";
+  };
+  $scope.alert={
+    "status": true,
+    "message": "Type in your search word above. || འཚོལ་ཞིབ་གནང་རོགས།"
+  };
     $scope.searchWordFunction = function() {
+
+        $scope.loading = true;
         $http({
              url: 'http://khata.co/api/find.php',
              method: 'POST',
@@ -57,11 +70,25 @@ angular.module('starter.controllers', [])
         })
         .success(function (data, status, headers, config) {
             console.log(data);
-            $scope.words = data;  //call in search.html
+            if(data.length===0){
+                $scope.alert={
+                    "status": true,
+                    "message": "Sorry, can't find the word :( \n ||   ད་ལྟ་ཚིག་འདི་མིན་འདུག།"
+                  };
+                  $scope.words = [];
+                }else{
+                   $scope.words = data;  //call in search.html
+                   $scope.alert = false;
+                }
+                  $scope.loading = false;
         })
         .error(function (data, status, headers, config) {
             console.log(data);
-            alert("error" + data + status+ headers+ config);
+              $ionicPopup.alert({
+                 title: 'Error',
+                 template: data + status+ headers+ config
+               });
+                              $scope.loading = false;
         });
     };
     
@@ -148,7 +175,6 @@ angular.module('starter.controllers', [])
 
 
 .controller('WordCtrl', function($scope, $stateParams, $http) {
-      console.log($stateParams.wordId);
 
       $http({
              url: 'http://khata.co/api/index.php',
@@ -320,25 +346,56 @@ angular.module('starter.controllers', [])
 
 
 })
-.controller('addWordCtrl', function($scope, $stateParams,  $http) {
+.controller('addWordCtrl', function($scope, $stateParams,  $http,$ionicPopup) {
+
+
 
     $scope.submit = function (){
-
-      $http({
+      if($scope.checkInput($scope.addWord)){
+              $http({
              url: 'http://khata.co/api/create.php',
              method: "POST",
              data: $scope.addWord,
              headers: {'Content-Type': 'application/json'}
         })
         .success(function (data, status, headers, config) {
-            console.log(data);
             $scope.alert = true;
-            alert("Word " + $scope.addWord.word + "/" + $scope.addWord.english_word + " added sucessfully!");
-            //$scope.alert = data;  //call in search.html
+            $ionicPopup.alert({
+                 title: 'Success!',
+                 template: "Word " + $scope.addWord.word + "/" + $scope.addWord.english_word + " added sucessfully!"
+               });
+            $scope.addWord = null;
         })
         .error(function (data, status, headers, config) {
             console.log(data);
         });
+
+      }else{
+           $ionicPopup.alert({
+                 title: 'Missing Values',
+                 template: "Please add Tibetan word and English word." 
+               });
+      }
+
+  };
+
+  $scope.checkInput = function(value){
+
+    if(value){
+      if(value.word){
+        if(value.english_word){
+          return true;
+        }else{
+          return false;
+        }
+      }else{
+        return false;
+      }
+    }else{
+      return false;
+    }
+
+
   };
 
 

@@ -10,30 +10,49 @@
 </div>
 
   <ion-content>
-    <form ng-submit="submit()">
-      <div class="list">
-        <label class="item item-input">
+    <form name="userForm">
+<!--           <form name="userForm" ng-submit="submit()">
+ -->
+<!--         <label class="item item-input">
           <span class="input-label">Tibetan Word</span>
           <input type="text" ng-model="$parent.addWord.word">
         </label>
         <label class="item item-input">
-<!--           <span class="input-label">Tibetan Definition</span>
- -->          <input type="text" placeholder="Tibetan Definition:" ng-model="$parent.addWord.definition">
+     <input type="text" placeholder="Tibetan Definition:" ng-model="$parent.addWord.definition">
         </label>
                 <label class="item item-input">
           <span class="input-label">English Word</span>
           <input type="text" ng-model="$parent.addWord.english_word">
         </label>
         <label class="item item-input">
-<!--           <span class="input-label">English Definition</span>
- -->          <input type="text" placeholder="English Definition:" ng-model="$parent.addWord.english_definition">
+    <input type="text" placeholder="English Definition:" ng-model="$parent.addWord.english_definition">
+        </label> -->
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" ng-model="$parent.addWord.word" name="word" placeholder="Tibetan Word | བོད་ཡིག་" required>
+             <span style="color:red" ng-show="userForm.word.$invalid">
+    <span ng-show="userForm.word.$error.required">** required</span>
+    </span>
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="$parent.addWord.definition" placeholder="Tibetan Definition| བོད་ཡིག་གོ་དོན་">
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="$parent.addWord.english_word" name="english_word" placeholder="English Word | དབྱིན་ཡིག་" required>
+            <span style="color:red" ng-show="userForm.english_word.$invalid">
+                <span ng-show="userForm.english_word.$error.required">** required</span>
+                </span>
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="$parent.addWord.english_definition" placeholder="English Definition | དབྱིན་ཡིག་གོ་དོན་">
         </label>
 
 
         <label class="item">
-          <button class="button button-block button-positive" type="submit">Submit</button>
+          <button class="button button-block button-positive" ng-click="submit()" type="submit">Submit</button>
         </label>
       </div>
+
     </form>
   </ion-content>
 </ion-modal-view>
