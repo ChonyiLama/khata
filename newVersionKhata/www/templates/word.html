@@ -1,8 +1,14 @@
 <ion-view view-title="Word">
   <ion-content padding="true">
+
              <h2> {{ x.word }} </h2> <br>
              {{ x.english_word }} <br> <br>
-
+             <div style="display:inline;">
+             <img style="width:100px;float:left;" src="{{x.author.picture}}"> <br>
+             Author: {{ x.author.name }} <br> 
+             Created on: {{ x.createdAt}} 
+               </div>
+               <br> <br> 
                          <a class=" pull-right" ng-click="likeWordFunction(word.id,$index)" >
 						      <i class="icon ion-thumbsup"></i>
 						     {{x.like}} Like

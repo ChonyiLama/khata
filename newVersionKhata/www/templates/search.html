@@ -1,97 +1,67 @@
-	
-	<ion-view view-title="Search for a word" ng-controller = "searchCtrl">
+<ion-view view-title="Search for a word" ng-controller="searchCtrl">
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <ion-content>
+        <div class="bar bar-header item-input-inset">
+            <label class="item-input-wrapper">
+                <i class="icon ion-ios-search placeholder-icon"></i>
+                <input type="search" ng-model="$parent.searchWord" ng-enter="searchWordFunction()"
+                       placeholder="Search word/འཚོལ་ཞིབ། ">
+                <ion-spinner ng-show="$parent.loading"></ion-spinner>
 
+            </label>
+            <button class="button button-clear" ng-click='clearWord()'>
+                Clear
+            </button>
+        </div>
+        <div>
+            <div class="card" ng-show="$parent.alert.status">
+                <div class="item item-divider">
+                    <code>{{alert.message}} </code>
+                </div>
+            </div>
+        </div>
+        <ion-scroll direction="y" style="height:103vh">
+            <div ng-repeat="word in words" href="#/app/word/{{word.id}}">
+                <div class="list card">
 
- <ion-content>
-<!-- 	<div class="item item-button-right item-input">
+                    <div class="item item-avatar">
+                        <img src="{{word.author.picture}}">
+                        <h2>{{word.author.name}}</h2>
+                        <p>{{word.createdAt}}</p>
+                    </div>
+                    <div class="item item-body" ng-click="gotoWord(word.id)">
+                        {{word.word}} <br>
+                        {{word.definition}} <br>
+                        {{word.english_word}} <br>
+                        {{word.english_definition}} <br>
 
-	    <i class="icon ion-search placeholder-icon"></i>
-	    <input type="text" ng-model = "$parent.searchWord" placeholder="Search a word">
+                        <p>
+                            <a href="#" class="subdued">{{word.like}} Like</a>
+                            <a href="#" class="subdued">{{word.dislike}} Dislike</a>
+                            <a href="#" class="subdued">Created On {{word.createdAt}} </a>
+                        </p>
 
-		<button class="button button-small button-outline button-calm" ng-click = 'searchWordFunction()'>
-	 	 search
-		</button>
-	</div> -->
+                    </div>
 
-	<div class="bar bar-header item-input-inset">
-	  <label class="item-input-wrapper">
-	    <i class="icon ion-ios-search placeholder-icon"></i>
-	    <input type="search" ng-model = "$parent.searchWord" ng-enter="searchWordFunction()"  placeholder="Search word/འཚོལ་ཞིབ། "> 	<ion-spinner ng-show="$parent.loading"></ion-spinner>
+                    <div class="item tabs tabs-secondary tabs-icon-left">
+                        <a class="tab-item" ng-click="likeWordFunction(word.id,$index)">
+                            <i class="icon ion-thumbsup"></i>
+                            Like
+                        </a>
+                        <a class="tab-item" ng-click="dislikeWordFunction(word.id, $index)">
+                            <i class="icon ion-thumbsdown"></i>
+                            Dislike
+                        </a>
 
-	  </label>
-	  <button class="button button-clear" ng-click = 'clearWord()'>
-	    Clear
-	  </button>
-	</div>
+                    </div>
+                </div>
 
-	<div>
-		<div class="card" ng-show="$parent.alert.status">
-		  <div class="item item-divider">
-			<code>{{alert.message}} </code>
+            </div>
+            <br><br><br><br><br><br><br>
+            <ion-scroll>
 
-			  </div>
-<!-- 		  <div class="item item-text-wrap">
-		    This is a basic Card with some text.
-		  </div>
-		  <div class="item item-divider">
-		    I'm a Footer in a Card!
-		  </div> -->
-		</div>
-
-	</div>
-
-<!--format-->
- <!--    <ion-list>
-        <ion-item ng-repeat="x in resultValue" href="#/app/word/{{x.id}}">
-              {{ x.word }} /{{ x.english_word }}
-            {{ x.definition }} /{{ x.english_definition }}
-        </ion-item>
-    </ion-list> -->
-
-     <ion-scroll direction="y" style="height:103vh;">
-			<div class="list list-inset">
-				<div ng-repeat="word in words" href="#/app/word/{{word.id}}" >
-
-				    <div class="item" ng-click="gotoWord(word.id)" >    <!-- confusion?  prints out words, id somewhere? -->
-				      {{word.word}} <br>
-				      {{word.english_word}} <br>
-
-				     <p>
-				      <a href="#" class="subdued">{{word.like}} Like</a>
-				      <a href="#" class="subdued">{{word.dislike}} Dislike</a>
-				    </p>
-
-				    </div>
-
-				    <div class="item tabs tabs-secondary tabs-icon-left" >
-				     <a class="tab-item" ng-click="likeWordFunction(word.id,$index)">  <!-- confusion?  like word-->
-				      <i class="icon ion-thumbsup"></i>
-				      Like
-				    </a>
-				     <a class="tab-item" ng-click="dislikeWordFunction(word.id, $index)" >
-				      <i class="icon ion-thumbsdown"></i>
-				      Dislike
-				    </a>
-					   <!--  <a class="tab-item" href="#">
-					      <i class="icon ion-chatbox"></i>
-					      Comment
-					    </a>
-					    <a class="tab-item" href="#">
-					      <i class="icon ion-share"></i>
-					      Share
-					    </a> -->
-					  </div>
-					  <br>
-				</div>
-			</div>
-
-	 <ion-scroll >
-
-
-
-
- </ion-content>
+    </ion-content>
 
 </ion-view>
+

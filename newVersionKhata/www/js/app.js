@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'ui.router'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ui.router','ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -39,6 +39,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ui.router'])
     }
   });
 })
+    .constant("APPSERVER", {
+        // "URL":"http://localhost:1337/"
+          "URL":"http://ec2-52-27-105-144.us-west-2.compute.amazonaws.com:1337/"
+
+    })
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
@@ -112,6 +117,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ui.router'])
       'menuContent': {
         templateUrl: 'templates/word.html',
         controller: 'WordCtrl'
+      }
+    }
+  })
+    .state('app.login', {
+    url: '/login',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/login.html',
+        controller: 'loginCtrl'
+      }
+    }
+  })
+ .state('app.home', {
+    url: '/home',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/home.html',
+        controller: 'homeCtrl'
       }
     }
   });

@@ -1,5 +1,6 @@
 angular.module('starter.controllers', [])
 
+
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
   // With the new view caching in Ionic, Controllers are only called
@@ -41,7 +42,8 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('searchCtrl', function($scope, $stateParams, $state, $http, $ionicLoading,$ionicPopup) {
+
+.controller('searchCtrl', function($scope, $stateParams, $state, $http, $ionicLoading,$ionicPopup,APPSERVER,CommonService) {
   var used_id_list = [];
 
   //   $ionicLoading.show({
@@ -62,12 +64,8 @@ angular.module('starter.controllers', [])
     $scope.searchWordFunction = function() {
 
         $scope.loading = true;
-        $http({
-             url: 'http://khata.co/api/find.php',
-             method: 'POST',
-             data: {'text': $scope.searchWord},
-             headers: {'Content-Type': 'application/json'}
-        })
+        
+        CommonService.search($scope.searchWord)
         .success(function (data, status, headers, config) {
             console.log(data);
             if(data.length===0){
@@ -78,6 +76,7 @@ angular.module('starter.controllers', [])
                   $scope.words = [];
                 }else{
                    $scope.words = data;  //call in search.html
+                   console.log(JSON.stringify($scope.words ));
                    $scope.alert = false;
                 }
                   $scope.loading = false;
@@ -95,12 +94,7 @@ angular.module('starter.controllers', [])
 
     $scope.likeWordFunction = function(id,index) {
 
-        $http({
-            url: 'http://khata.co/api/like.php',
-            method: 'POST',
-            data: { 'id': id},
-            headers: {'Content-Type': 'application/json'}           
-        })
+       CommonService.likeWord(id)
         .success(function(data, status, headers, config) {
             console.log(data);
             $scope.likeId = data;
@@ -123,12 +117,7 @@ angular.module('starter.controllers', [])
     }; 
     $scope.dislikeWordFunction = function(id,index) {
 
-        $http({
-            url: 'http://khata.co/api/dislike.php',
-            method: 'POST',
-            data: {'id': id},
-            headers: {'Content-Type': 'application/json'}           
-        })
+     CommonService.dislikeWord(id)
         .success(function(data, status, headers, config) {
             console.log(data);
             $scope.dislikeId = data;
@@ -152,20 +141,15 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ContactUsCtrl', function($scope,$http) {
+.controller('ContactUsCtrl', function($scope,$http,CommonService) {
 
   $scope.sentRequest = function (){
 
-      $http({
-             url: 'http://khata.co/api/contact.php',
-             method: "POST",
-             data: $scope.contact,
-             headers: {'Content-Type': 'application/json'}
-        })
+      CommonService.contact($scope.contact)
         .success(function (data, status, headers, config) {
             console.log(data);
             $scope.alert = data;  //call in search.html
-                        $scope.alert = true;
+            $scope.alert = true;
         })
         .error(function (data, status, headers, config) {
             console.log(data);
@@ -174,31 +158,20 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('WordCtrl', function($scope, $stateParams, $http) {
+.controller('WordCtrl', function($scope, $stateParams, $http,APPSERVER,CommonService) {
 
-      $http({
-             url: 'http://khata.co/api/index.php',
-             method: "POST",
-             data: {"id":  $stateParams.wordId },
-             headers: {'Content-Type': 'application/json'}
-        })
+ 
+      CommonService.oneWord($stateParams.wordId)
         .success(function (data, status, headers, config) {
-            console.log(data);
-            $scope.x = data[0];  //call in search.html
+            $scope.x = data;  //call in search.html
         })
         .error(function (data, status, headers, config) {
             console.log(data);
         });
 
-      $scope.likeWordFunction = function(id,index) {
-      
 
-        $http({
-            url: 'http://khata.co/api/like.php',
-            method: 'POST',
-            data: { 'id': id},
-            headers: {'Content-Type': 'application/json'}           
-        })
+      $scope.likeWordFunction = function(id,index) {
+       CommonService.likeWord(id)
         .success(function(data, status, headers, config) {
             console.log(data);
             $scope.likeId = data;
@@ -220,12 +193,8 @@ angular.module('starter.controllers', [])
         });
     }; 
     $scope.dislikeWordFunction = function(id,index) {
-        $http({
-            url: 'http://khata.co/api/dislike.php',
-            method: 'POST',
-            data: {'id': id},
-            headers: {'Content-Type': 'application/json'}           
-        })
+       
+       CommonService.dislikeWord(id)
         .success(function(data, status, headers, config) {
             console.log(data);
             $scope.dislikeId = data;
@@ -250,19 +219,18 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('wordRecent10Ctrl', function($scope, $stateParams, $http, $state) {
+.controller('wordRecent10Ctrl', function($scope, $stateParams, $http, $state,APPSERVER,CommonService) {
     used_ids = [];
     
-      $http({
-             url: 'http://khata.co/api/recent10.php',
-             method: "GET",
-             headers: {'Content-Type': 'application/json'}
-        })
+      CommonService.getWord()
         .success(function (data, status, headers, config) {
             $scope.words = data;  //call in search.html
+            console.log(JSON.stringify($scope.words ));
         })
         .error(function (data, status, headers, config) {
             console.log(data);
+              alert("error");
+
         });
 
         $scope.gotoWord = function (id){
@@ -270,13 +238,7 @@ angular.module('starter.controllers', [])
         };
     $scope.likeWordFunction = function(id,index) {
       
-
-        $http({
-            url: 'http://khata.co/api/like.php',
-            method: 'POST',
-            data: { 'id': id},
-            headers: {'Content-Type': 'application/json'}           
-        })
+        CommonService.likeWord(id)
         .success(function(data, status, headers, config) {
             console.log(data);
             $scope.likeId = data;
@@ -298,12 +260,8 @@ angular.module('starter.controllers', [])
         });
     }; 
     $scope.dislikeWordFunction = function(id,index) {
-        $http({
-            url: 'http://khata.co/api/dislike.php',
-            method: 'POST',
-            data: {'id': id},
-            headers: {'Content-Type': 'application/json'}           
-        })
+        
+        CommonService.dislikeWord(id)
         .success(function(data, status, headers, config) {
             console.log(data);
             $scope.dislikeId = data;
@@ -326,12 +284,8 @@ angular.module('starter.controllers', [])
     };  
 
     $scope.doRefresh = function() {
-
-     $http({
-             url: 'http://khata.co/api/recent10.php',
-             method: "GET",
-             headers: {'Content-Type': 'application/json'}
-        })
+    
+    CommonService.doRefresh()
         .success(function (data, status, headers, config) {
             $scope.words = data;  //call in search.html
         })
@@ -346,18 +300,18 @@ angular.module('starter.controllers', [])
 
 
 })
-.controller('addWordCtrl', function($scope, $stateParams,  $http,$ionicPopup) {
+.controller('addWordCtrl', function($scope, $stateParams,UserService, $state, $http,$ionicPopup,APPSERVER,CommonService) {
 
-
+    if(angular.isUndefined(window.localStorage.starter_facebook_user)){
+            $state.go('app.login');
+    };
+    $scope.user = UserService.getUser();
 
     $scope.submit = function (){
+      $scope.addWord.author = $scope.user.id; 
       if($scope.checkInput($scope.addWord)){
-              $http({
-             url: 'http://khata.co/api/create.php',
-             method: "POST",
-             data: $scope.addWord,
-             headers: {'Content-Type': 'application/json'}
-        })
+
+        CommonService.addWord($scope.addWord)
         .success(function (data, status, headers, config) {
             $scope.alert = true;
             $ionicPopup.alert({
@@ -367,7 +321,8 @@ angular.module('starter.controllers', [])
             $scope.addWord = null;
         })
         .error(function (data, status, headers, config) {
-            console.log(data);
+          alert(JSON.stringify(data));
+          alert("error");
         });
 
       }else{
@@ -395,11 +350,183 @@ angular.module('starter.controllers', [])
       return false;
     }
 
-
   };
 
+})
 
 
+.controller('loginCtrl', function($scope, $state, $q, UserService, $ionicLoading) {
+  // This is the success callback from the login method
 
+
+  var fbLoginSuccess = function(response) {
+    if (!response.authResponse){
+      fbLoginError("Cannot find the authResponse");
+      return;
+    }
+
+    var authResponse = response.authResponse;
+
+    getFacebookProfileInfo(authResponse)
+    .then(function(profileInfo) {
+      // For the purpose of this example I will store user data on local storage
+
+      UserService.setUser({
+        authResponse: authResponse,
+        userID: profileInfo.id,
+        name: profileInfo.name,
+        email: profileInfo.email,
+        // picture : "https://graph.facebook.com/" + authResponse.userID + "/picture?type=large&access_token="+authResponse.accessToken
+       picture : "https://graph.facebook.com/" + authResponse.userID + "/picture?type=large"
+
+      })
+        .success(function (data, status, headers, config) {
+            console.log("insidesetUser");
+            var arg = JSON.parse(window.localStorage.starter_facebook_user );
+            arg['id'] = data.id;
+            window.localStorage.setItem('starter_facebook_user', JSON.stringify(arg));
+            $ionicLoading.hide();
+            $state.go('app.home');
+        })
+        .error(function (data, status, headers, config) {
+        console.log('error data setuser', data);
+        });
+
+    }, function(fail){
+      // Fail get profile info
+      console.log('profile info fail', fail);
+    });
+  };
+
+  // This is the fail callback from the login method
+  var fbLoginError = function(error){
+    console.log('fbLoginError', error);
+    $ionicLoading.hide();
+  };
+
+  // This method is to get the user profile info from the facebook api
+  var getFacebookProfileInfo = function (authResponse) {
+    var info = $q.defer();
+
+    facebookConnectPlugin.api('/me?fields=email,name&access_token=' + authResponse.accessToken, null,
+      function (response) {
+        console.log(response);
+        info.resolve(response);
+      },
+      function (response) {
+        console.log(response);
+        info.reject(response);
+      }
+    );
+    return info.promise;
+  };
+
+  //This method is executed when the user press the "Login with facebook" button
+  $scope.facebookSignIn = function() {
+    facebookConnectPlugin.getLoginStatus(function(success){
+      if(success.status === 'connected'){
+        // The user is logged in and has authenticated your app, and response.authResponse supplies
+        // the user's ID, a valid access token, a signed request, and the time the access token
+        // and signed request each expire
+        console.log('getLoginStatus', success.status);
+
+        // Check if we have our user saved
+        var user = UserService.getUser('facebook');
+
+        if(!user.userID){
+          getFacebookProfileInfo(success.authResponse)
+          .then(function(profileInfo) {
+            // For the purpose of this example I will store user data on local storage
+            UserService.setUser({
+              authResponse: success.authResponse,
+              userID: profileInfo.id,
+              name: profileInfo.name,
+              email: profileInfo.email,
+              // picture : "https://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large&access_token="+success.authResponse.accessToken
+              picture : "https://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
+
+            })
+            .success(function (data, status, headers, config) {
+                $state.go('app.home');
+            })
+            .error(function (data, status, headers, config) {
+            console.log('error data setuser', data);
+            });
+
+          }, function(fail){
+            // Fail get profile info
+            console.log('profile info fail', fail);
+          });
+        }else{
+          $state.go('app.home');
+        }
+      } else {
+        // If (success.status === 'not_authorized') the user is logged in to Facebook,
+        // but has not authenticated your app
+        // Else the person is not logged into Facebook,
+        // so we're not sure if they are logged into this app or not.
+
+        console.log('getLoginStatus', success.status);
+
+        $ionicLoading.show({
+          template: 'Logging in...'
+        });
+
+        // Ask the permissions you need. You can learn more about
+        // FB permissions here: https://developers.facebook.com/docs/facebook-login/permissions/v2.4
+        facebookConnectPlugin.login(['email', 'public_profile'], fbLoginSuccess, fbLoginError);
+      }
+    });
+  };
+})
+
+.controller('homeCtrl', function($scope,UserService, $ionicActionSheet, $timeout,$state, $ionicLoading,$ionicHistory){
+  
+     if(angular.isUndefined(window.localStorage.starter_facebook_user) ){
+            $state.go('app.login');
+      }else if( window.localStorage.starter_facebook_user == "{}" ){
+            $state.go('app.login');
+      }else{
+      };
+
+  $scope.user = UserService.getUser();
+
+  $scope.showLogOutMenu = function() {
+    var hideSheet = $ionicActionSheet.show({
+      destructiveText: 'Logout',
+      titleText: 'Are you sure you want to logout? This app is awsome so I recommend you to stay.',
+      cancelText: 'Cancel',
+      cancel: function() {},
+      buttonClicked: function(index) {
+        console.log("inside logout");
+        return true;
+      },
+      destructiveButtonClicked: function(){
+        $ionicLoading.show({
+          template: 'Logging out...'
+        });
+
+        // Facebook logout
+        facebookConnectPlugin.logout(function(){
+          $ionicLoading.hide();
+            window.localStorage.removeItem('starter_facebook_user');
+              $timeout(function () {
+                $ionicLoading.hide();
+                $ionicHistory.clearCache();
+                $ionicHistory.clearHistory();
+                $ionicHistory.nextViewOptions({
+                    disableBack: false,
+                    historyRoot: true
+                });
+            }, 30);
+
+          $state.go('app.search');
+        },
+        function(fail){
+          $ionicLoading.hide();
+        });
+      }
+    });
+  };
 });
 
